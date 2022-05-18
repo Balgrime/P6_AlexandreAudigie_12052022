@@ -1,6 +1,14 @@
 const express = require('express');
 
+const mongoose = require('mongoose');
+
 const app = express();
+
+mongoose.connect('mongodb+srv://Balgrime:3jHCtrczRH8tiNl6@cluster0.kjzvs.mongodb.net/?retryWrites=true&w=majority',
+  { useNewUrlParser: true,
+    useUnifiedTopology: true })
+  .then(() => console.log('Connexion à MongoDB réussie !'))
+  .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 
 app.use((req, res, next) => {
@@ -22,5 +30,5 @@ app.use((req, res, next) => {
     console.log('Réponse envoyée avec succès !');
   });
 
-  
+
 module.exports = app;
