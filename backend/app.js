@@ -4,6 +4,8 @@ const app = express();
 
 const userRoutes = require('./routes/user');
 
+app.use(express.json());
+
 mongoose.connect('mongodb+srv://Balgrime:3jHCtrczRH8tiNl6@cluster0.kjzvs.mongodb.net/?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
