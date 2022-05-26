@@ -20,6 +20,7 @@ exports.createSauce = (req, res, next) => {
   };
 
 
+
 /*exports.createSauce = (req, res, next) => {
   const sauce = new Sauce({
     userId: req.body.userId,
@@ -168,3 +169,51 @@ exports.getAllSauces = (req, res, next) => {
     }
   );
 };
+
+
+exports.changeLike = (req, res, next) => {
+  console.log('la route like fonctionne');
+    let currentId =  req.body.userId;
+    let currentLike = req.body.like;
+  console.log(currentLike);
+
+   let intCurrentLike = parseInt(currentLike);
+
+  if (intCurrentLike === 1){
+    Sauce.findOne({ _id: req.params.id }).then((sauce) => {
+      sauce.likes += 1;
+      console.log(sauce.likes);
+      sauce.usersLiked.push(currentId);
+      console.log(currentId);
+      console.log(sauce.usersLiked);
+      sauce.save();
+      res.status(201).json({ message: 'Like ajouté !'})
+      
+    })
+    .catch(error => res.status(400).json({ error }));
+
+  } else if (intCurrentLike === 0){
+
+  } else if (intCurrentLike === -1){
+
+  };
+
+};
+
+function addLiking(req, currentId){
+  if(Sauce.usersLiked === null ){
+    Sauce.updateOne({ _id: req.params.id }, { likes : 1})
+  }; //if(Sauce.usersLiked.indexOf(currentId) === -1)
+};
+
+
+
+
+
+/*function hasUserAlreadyLiked(req, currentId){
+  Sauce.findOne({ _id: req.params.id })
+      .then(sauce => {
+         === currentId//sauce.usersDisliked
+        if(sauce.usersLiked.indexOf(currentId) === -1 && )
+      )
+};*/
