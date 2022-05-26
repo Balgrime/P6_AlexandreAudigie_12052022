@@ -21,36 +21,6 @@ exports.createSauce = (req, res, next) => {
 
 
 
-/*exports.createSauce = (req, res, next) => {
-  const sauce = new Sauce({
-    userId: req.body.userId,
-    name: req.body.name,
-    manufacturer: req.body.manufacturer,
-    description: req.body.description,
-    mainPepper: req.body.mainPepper,
-    imageUrl: req.body.imageUrl,
-    heat: req.body.heat,
-    likes: 0,
-    dislikes: 0,
-    usersLiked: [],
-    usersDisliked: []
-  });
-  sauce.save().then(
-    () => {
-      res.status(201).json({
-        message: 'Sauce saved successfully!'
-      });
-    }
-  ).catch(
-    (error) => {
-      res.status(400).json({
-        error: error
-      });
-    }
-  );
-};*/
-
-
 
 exports.getOneSauce = (req, res, next) => {
   Sauce.findOne({
@@ -68,34 +38,7 @@ exports.getOneSauce = (req, res, next) => {
   );
 };
 
-/*exports.modifySauce = (req, res, next) => {
-  const sauce = new Sauce({
-    userId: req.body.userId,
-    name: req.body.name,
-    manufacturer: req.body.manufacturer,
-    description: req.body.description,
-    mainPepper: req.body.mainPepper,
-    imageUrl: req.body.imageUrl,
-    heat: req.body.heat,
-    likes: 0,
-    dislikes: 0,
-    usersLiked: [],
-    usersDisliked: []
-  });
-  Sauce.updateOne({_id: req.params.id}, sauce).then(
-    () => {
-      res.status(201).json({
-        message: 'Sauce updated successfully!'
-      });
-    }
-  ).catch(
-    (error) => {
-      res.status(400).json({
-        error: error
-      });
-    }
-  );
-};*/
+
 
 exports.modifySauce = (req, res, next) => {
     const sauceObject = req.file ?
@@ -109,37 +52,6 @@ exports.modifySauce = (req, res, next) => {
   };
 
 
-
-
-/*exports.deleteSauce = (req, res, next) => {
-    Sauce.findOne({ _id: req.params.id }).then(
-        (sauce) => {
-            if (!sauce) {
-                return res.status(404).json({
-                    error: new Error('Sauce non trouvée')
-                });
-            }
-            if (sauce.userId !== req.auth.userId) {
-                return res.status(403).json({
-                    error: new Error('Requête non autorisée ! (unauthorized user)')
-                });
-            }
-            Sauce.deleteOne({_id: req.params.id}).then(
-                () => {
-                  res.status(200).json({
-                    message: 'Deleted!'
-                  });
-                }
-              ).catch(
-                (error) => {
-                  res.status(400).json({
-                    error: error
-                  });
-                }
-              );
-        }
-    );
-};*/
 
 exports.deleteSauce = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id })
@@ -175,9 +87,6 @@ exports.getAllSauces = (req, res, next) => {
 
 
 
-
-
-
 exports.changeLike = (req, res, next) => {
   console.log('la route like fonctionne');
     let currentId =  req.body.userId;
@@ -185,7 +94,6 @@ exports.changeLike = (req, res, next) => {
   console.log(currentLike);
 
    let intCurrentLike = parseInt(currentLike);
-
 
 
   
@@ -236,7 +144,8 @@ function removeLiking(sauce, currentId){
     let positionUser = sauce.usersLiked.indexOf(currentId);
     sauce.usersLiked.splice(positionUser, 1);
     sauce.save();
-  } else if (sauce.usersDisliked.indexOf(currentId) !== -1){
+  };
+  if (sauce.usersDisliked.indexOf(currentId) !== -1){
     sauce.dislikes -= 1;
     let positionUser = sauce.usersDisliked.indexOf(currentId);
     sauce.usersDisliked.splice(positionUser, 1);
