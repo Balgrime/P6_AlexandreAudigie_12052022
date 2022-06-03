@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
       }),
       catchError(error => {
         this.loading = false;
-        this.errorMsg = "Le mot de passe ne correspond pas à l'email indiqué";
+        this.errorMsg = error.message;
         return EMPTY;
       })
     ).subscribe();
