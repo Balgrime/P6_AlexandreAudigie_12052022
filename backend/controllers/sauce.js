@@ -71,7 +71,6 @@ exports.getOneSauce = (req, res, next) => {
           imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
         } : { ...req.body };
           if (req.file){
-            console.log("il y a une nouvelle image à ajouter");
             const filename = sauce.imageUrl.split('/images/')[1];
               fs.unlink(`images/${filename}`, () => {
                 Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
@@ -79,7 +78,6 @@ exports.getOneSauce = (req, res, next) => {
               .catch(error => res.status(400).json({ error }));
             });
           } else {
-            console.log("il n'y a pas de nouvelle image à ajouter");
             Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
           .then(() => res.status(200).json({ message: 'Sauce modifié !'}))
           .catch(error => res.status(400).json({ error }));
@@ -159,10 +157,8 @@ exports.getAllSauces = (req, res, next) => {
 
 
 exports.changeLike = (req, res, next) => {
-  console.log('la route like fonctionne');
     let currentId =  req.body.userId;
     let currentLike = req.body.like;
-  console.log(currentLike);
 
    let intCurrentLike = parseInt(currentLike);
 
@@ -189,10 +185,7 @@ exports.changeLike = (req, res, next) => {
 function addLiking(sauce, currentId){
   if(sauce.usersLiked === [] || sauce.usersLiked.indexOf(currentId) === -1){
     sauce.likes += 1;
-      console.log(sauce.likes);
     sauce.usersLiked.push(currentId);
-      console.log(currentId);
-      console.log(sauce.usersLiked);
     sauce.save();
   };
 };
@@ -201,10 +194,7 @@ function addLiking(sauce, currentId){
 function addDisliking(sauce, currentId){
   if(sauce.usersDisliked === [] || sauce.usersDisliked.indexOf(currentId) === -1){
     sauce.dislikes += 1;
-      console.log(sauce.dislikes);
     sauce.usersDisliked.push(currentId);
-      console.log(currentId);
-      console.log(sauce.usersDisliked);
     sauce.save();
   };
 };
