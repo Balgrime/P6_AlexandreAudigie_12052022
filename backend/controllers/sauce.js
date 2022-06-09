@@ -125,12 +125,12 @@ exports.changeLike = (req, res, next) => {
     let currentId =  req.body.userId;
     let currentLike = req.body.like;
 
-   let intCurrentLike = parseInt(currentLike);
-
+    let intCurrentLike = parseInt(currentLike);
 
   
     Sauce.findOne({ _id: req.params.id }).then((sauce) => {
         res.status(201).json({ message: 'Like modifié !'})
+        
         if (intCurrentLike === 1){
         addLiking(sauce, currentId);
 
@@ -148,7 +148,7 @@ exports.changeLike = (req, res, next) => {
 
 
 function addLiking(sauce, currentId){
-  if(sauce.usersLiked === [] || sauce.usersLiked.indexOf(currentId) === -1){
+  if(sauce.usersLiked.indexOf(currentId) === -1 && sauce.usersDisliked.indexOf(currentId) === -1){
     sauce.likes += 1;
     sauce.usersLiked.push(currentId);
     sauce.save();
@@ -157,7 +157,7 @@ function addLiking(sauce, currentId){
 
 
 function addDisliking(sauce, currentId){
-  if(sauce.usersDisliked === [] || sauce.usersDisliked.indexOf(currentId) === -1){
+  if(sauce.usersLiked.indexOf(currentId) === -1 && sauce.usersDisliked.indexOf(currentId) === -1){
     sauce.dislikes += 1;
     sauce.usersDisliked.push(currentId);
     sauce.save();
