@@ -14,7 +14,7 @@ const frontLink = process.env.linkFront;
 
 app.use(express.json());
 
-mongoose.connect(dataBaseLink,
+mongoose.connect(`mongodb+srv://Balgrime:${dataBaseLink}@cluster0.kjzvs.mongodb.net/?retryWrites=true&w=majority`,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
