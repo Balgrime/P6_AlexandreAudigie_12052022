@@ -8,13 +8,13 @@ require('dotenv').config();
 const userRoutes = require('./routes/user');
 const sauceRoutes = require('./routes/sauce');
 
-const dataBaseLink = process.env.mongoDbKey;
+const dataBaseKey = process.env.mongoDbKey;
 const frontLink = process.env.linkFront;
 
 
 app.use(express.json());
 
-mongoose.connect(`mongodb+srv://Balgrime:${dataBaseLink}@cluster0.kjzvs.mongodb.net/?retryWrites=true&w=majority`,
+mongoose.connect(dataBaseKey,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
