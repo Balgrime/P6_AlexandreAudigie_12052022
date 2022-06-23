@@ -1,10 +1,18 @@
 const Sauce = require('../models/Sauce');
 
+const sanitize = require("validator");
+
 const fs = require('fs');
 
 
 exports.createSauce = (req, res, next) => {
     const sauceObject = JSON.parse(req.body.sauce);
+  
+    sauceObject.name = sanitize.blacklist(sauceObject.name, "<>\"'/");
+    sauceObject.manufacturer = sanitize.blacklist(sauceObject.manufacturer, "<>\"'/");
+    sauceObject.description = sanitize.blacklist(sauceObject.description, "<>\"'/");
+    sauceObject.mainPepper = sanitize.blacklist(sauceObject.mainPepper, "<>\"'/");
+
     delete sauceObject._id;
     const sauce = new Sauce({
       ...sauceObject,
@@ -51,6 +59,11 @@ exports.getOneSauce = (req, res, next) => {
             error: new Error('Unauthorized user!')
           });
         } else {
+          req.body.name = sanitize.blacklist(req.body.name, "<>\"'/");
+          req.body.manufacturer = sanitize.blacklist(req.body.manufacturer, "<>\"'/");
+          req.body.description = sanitize.blacklist(req.body.description, "<>\"'/");
+          req.body.mainPepper = sanitize.blacklist(req.body.mainPepper, "<>\"'/");
+
           const sauceObject = req.file ?
         {
           ...JSON.parse(req.body.sauce),
