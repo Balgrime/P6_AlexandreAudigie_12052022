@@ -146,12 +146,15 @@ exports.changeLike = (req, res, next) => {
         
         if (intCurrentLike === 1){
         addLiking(sauce, currentId);
+        sauce.save();
 
       } else if (intCurrentLike === 0){
         removeLiking(sauce, currentId);
+        sauce.save();
 
       } else if (intCurrentLike === -1){
         addDisliking(sauce, currentId);
+        sauce.save();
 
       };
     })
@@ -164,7 +167,10 @@ function addLiking(sauce, currentId){
   if(sauce.usersLiked.indexOf(currentId) === -1 && sauce.usersDisliked.indexOf(currentId) === -1){
     sauce.likes += 1;
     sauce.usersLiked.push(currentId);
-    sauce.save();
+  } else if (sauce.usersLiked.indexOf(currentId) === -1 && sauce.usersDisliked.indexOf(currentId) !== -1){
+    removeLiking(sauce, currentId);
+    sauce.likes += 1;
+    sauce.usersLiked.push(currentId);
   };
 };
 
@@ -173,21 +179,24 @@ function addDisliking(sauce, currentId){
   if(sauce.usersLiked.indexOf(currentId) === -1 && sauce.usersDisliked.indexOf(currentId) === -1){
     sauce.dislikes += 1;
     sauce.usersDisliked.push(currentId);
-    sauce.save();
+  } else if (sauce.usersLiked.indexOf(currentId) !== -1 && sauce.usersDisliked.indexOf(currentId) === -1){
+    removeLiking(sauce, currentId);
+    sauce.dislikes += 1;
+    sauce.usersDisliked.push(currentId);
   };
 };
+
+
 
 function removeLiking(sauce, currentId){
   if(sauce.usersLiked.indexOf(currentId) !== -1){
     sauce.likes -= 1;
     let positionUser = sauce.usersLiked.indexOf(currentId);
     sauce.usersLiked.splice(positionUser, 1);
-    sauce.save();
   };
   if (sauce.usersDisliked.indexOf(currentId) !== -1){
     sauce.dislikes -= 1;
     let positionUser = sauce.usersDisliked.indexOf(currentId);
     sauce.usersDisliked.splice(positionUser, 1);
-    sauce.save();
   };
 };
